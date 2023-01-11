@@ -1,0 +1,31 @@
+apiVersion: scone/5.8
+kind: mesh
+
+cas:
+  - name: "cas" # cas used to store the policy of this application
+    alias: ["image", "security", "access", "attestation"] # use alias in case CAS instance has multiple roles
+    cas_url: cas-5-9.default # cas audit
+    cas_key: 3HdhuraySjEdFgTpeybz4oaE1TDcnMVqfzFX8Ekk1rnbfhmpPD
+    tolerance: "-G" # TCB out of date
+    mode: EncryptedManifest
+    cas_encryption_key: 908bb8d9b7fb0502c22e18c24d6a85bb2d6790133c66fcbe1f6413a45ab7197f 
+
+policy:
+  namespace: my-namespace-434    # namespace on CAS instance `cas`
+  tolerate: "outdated-tcb"
+
+
+env:
+  - service: global
+    env:
+      - name: API_USER
+        value: myself
+      - name: imagePullSecrets
+        value: sconeapps
+      - name: APP_SERVICE_PORT
+        value: 443
+
+services:
+  - name: pythonservice
+    image: registry.scontain.com/cicd/python_hello_user:2
+

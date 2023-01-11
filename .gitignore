@@ -1,0 +1,12 @@
+target
+.ash_history
+README.pdf
+.kube
+service.yaml
+service1.yaml
+service2.yaml
+mesh.yaml
+mesh2.yaml
+mesh1.yaml
+mesh_out.yaml
+release.sh

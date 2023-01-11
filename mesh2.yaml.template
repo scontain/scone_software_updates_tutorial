@@ -1,0 +1,39 @@
+apiVersion: scone/5.8
+kind: mesh
+
+cas:
+  - name: cas # cas used to store the policy of this application
+    alias: ["image", "security", "access", "attestation"] # use alias in case CAS instance has multiple roles
+    cas_url: $CAS_URL # cas.default  # exported as {{cas_cas_cas_url}}
+    cas_key: $CAS_KEY
+    tolerance: "-G" # TCB out of date
+    mode: EncryptedManifest
+    cas_encryption_key: $CAS_SESSION_ENCRYPTION_KEY 
+
+policy:
+  namespace: $APP_NAMESPACE    # namespace on CAS instance `cas`
+  tolerate: "outdated-tcb"
+
+# define environment variables
+# - this is can be done for each individual service defined in the services section 
+#   - these definitions are only visible for this service
+#   - these definitions overwrite any definitions of the global or helm section 
+# - we define two special services:
+#   - "global": these definitions are shared by all services
+#   - "helm": this behaves like the "global" service - the intention is to
+#             collect helm specific definitions here
+
+env:
+  - service: global
+    env:
+      - name: API_USER
+        value: myself
+      - name: imagePullSecrets
+        value: sconeapps
+      - name: APP_SERVICE_PORT
+        value: 443
+
+services:
+  - name: pythonservice
+    image: $APP_IMAGE_REPO/python_hello_user:su2
+
