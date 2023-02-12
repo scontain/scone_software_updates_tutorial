@@ -220,7 +220,7 @@ sconectl apply -f service$ALTERNATIVE.yaml $verbose $debug
 
 echo -e "${BLUE}Determine the keys of CAS $CAS in namespace $CAS_NAMESPACE"
 
-source <(kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print_caskeys)
+source <(kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print-public-keys)
 
 echo -e "${BLUE}build application and pushing policies:${NC} apply -f mesh${ALTERNATIVE}.yaml"
 echo -e "${BLUE}  - this fails, if you do not have access to the SCONE CAS namespace"
