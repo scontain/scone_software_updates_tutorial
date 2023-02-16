@@ -6,6 +6,8 @@ In this tutorial, we show how to perform software updates of confidential applic
 
 ```bash
 rm -rf release.sh target
+
+export SCONECTL_REPO=registry.scontain.com/cicd
 ```
 
 ## First Version
