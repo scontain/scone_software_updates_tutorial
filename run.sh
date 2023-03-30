@@ -221,7 +221,7 @@ echo -e  "${BLUE}   change in file '${ORANGE}service$ALTERNATIVE.yaml${BLUE}' fi
 
 SCONE="\$SCONE" envsubst < service$ALTERNATIVE.yaml.template > service$ALTERNATIVE.yaml
 
-sconectl apply -f service$ALTERNATIVE.yaml $verbose $debug
+sconectl apply -f service$ALTERNATIVE.yaml $verbose $debug --set-version ${VERSION}
 
 echo -e "${BLUE}Determine the keys of CAS $CAS in namespace $CAS_NAMESPACE"
 
@@ -231,9 +231,10 @@ echo -e "${BLUE}build application and pushing policies:${NC} apply -f mesh${ALTE
 echo -e "${BLUE}  - this fails, if you do not have access to the SCONE CAS namespace"
 echo -e "  - update the namespace '${ORANGE}policy.namespace${NC}' to a unique name in '${ORANGE}mesh${ALTERNATIVE}.yaml${NC}'"
 
+export CAS_URL="${CAS}.${CAS_NAMESPACE}"
 SCONE="\$SCONE" envsubst < mesh$ALTERNATIVE.yaml.template > mesh$ALTERNATIVE.yaml
 
-sconectl apply -f mesh$ALTERNATIVE.yaml --release "$RELEASE" --release-version $ALTERNATIVE $verbose $debug
+sconectl apply -f mesh$ALTERNATIVE.yaml --release "$RELEASE" --release-version $ALTERNATIVE $verbose $debug  --set-version ${VERSION}
 
 
 echo -e "${BLUE}install application:${NC} helm upgrade ${namespace_args} ${RELEASE} target/helm/"
