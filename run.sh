@@ -233,7 +233,7 @@ sconectl apply -f service$ALTERNATIVE.yaml $verbose $debug --set-version ${VERSI
 
 echo -e "${BLUE}Determine the keys of CAS $CAS in namespace $CAS_NAMESPACE"
 
-source <(kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print-public-keys)
+source <(VERSION="" kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print-public-keys)
 
 echo -e "${BLUE}build application and pushing policies:${NC} apply -f mesh${ALTERNATIVE}.yaml"
 echo -e "${BLUE}  - this fails, if you do not have access to the SCONE CAS namespace"
@@ -251,3 +251,5 @@ helm upgrade --install $namespace_arg ${release} target/helm/
 
 echo -e "${BLUE}Check the logs by executing:${NC} kubectl logs ${namespace_args} ${RELEASE}<TAB>"
 echo -e "${BLUE}Uninstall by executing:${NC} helm uninstall ${namespace_args} ${RELEASE}"
+
+APP_NAME="pythonservice" ./check_pods.sh
