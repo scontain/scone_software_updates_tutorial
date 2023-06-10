@@ -2,6 +2,7 @@
 
 set -e
 export VERSION=${VERSION:-latest}
+export CAS_VERSION=${CAS_VERSION:-$VERSION}
 
 
 export RED='\e[31m'
@@ -233,7 +234,7 @@ sconectl apply -f service$ALTERNATIVE.yaml $verbose $debug --set-version ${VERSI
 
 echo -e "${BLUE}Determine the keys of CAS $CAS in namespace $CAS_NAMESPACE"
 
-source <(VERSION="" kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print-public-keys)
+source <(VERSION="$CAS_VERSION" kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --print-public-keys)
 
 echo -e "${BLUE}build application and pushing policies:${NC} apply -f mesh${ALTERNATIVE}.yaml"
 echo -e "${BLUE}  - this fails, if you do not have access to the SCONE CAS namespace"

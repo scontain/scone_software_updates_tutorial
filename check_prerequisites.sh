@@ -2,6 +2,7 @@
 
 set -e
 export VERSION=${VERSION:-latest}
+export CAS_VERSION=${CAS_VERSION:-$VERSION}
 
 export RED='\e[31m'
 export BLUE='\e[34m'
@@ -88,7 +89,7 @@ then
 fi
 
 echo -e "${BLUE}Checking that we the CPU has all necessary CPU features enabled${NC}"
-if ! docker run --platform linux/amd64 -e SCONE_NO_TIME_THREAD=1 --rm $SCONECTL_REPO/check_cpufeatures:latest &> /dev/null
+if ! docker run --platform linux/amd64 -e SCONE_PRODUCTION=0 -e SCONE_NO_TIME_THREAD=1 --rm $SCONECTL_REPO/check_cpufeatures:latest &> /dev/null
 then
     echo -e "${RED}Docker does not seem to support all CPU features.${NC}"
     echo -e "- ${ORANGE}Assuming you do not run on a modern Intel CPU. Please ensure that you pass the following options to qemu: -cpu qemu64,+ssse3,+sse3,+sse4.1,+sse4.2,+rdrand,+popcnt,+xsave,+aes${NC}" 
@@ -168,7 +169,7 @@ fi
 
 echo -e "${BLUE}Checking health status of CAS '$CAS' in namespace '$CAS_NAMESPACE' is provisioned${NC}"
 
-if ! VERSION="" kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --is-provisioned
+if ! VERSION="$CAS_VERSION" kubectl provision cas "$CAS" -n "$CAS_NAMESPACE" --is-provisioned
 then
     echo -e "${RED}It seems that CAS '$CAS' in namespace '$CAS_NAMESPACE' is not yet provisioned${NC}"
     echo -e "- ${ORANGE}- You can provision this cas as follows: kubectl provision cas $CAS $CAS_NAMESPACE -v${NC}"
