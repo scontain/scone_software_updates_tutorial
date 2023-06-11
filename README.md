@@ -1,5 +1,24 @@
 # Software Update
 
+## TL'DR
+
+```bash
+# In case you want to test a release candidate of `sconectl`, you can change the repo and the VERSION
+export SCONECTL_REPO=registry.scontain.com/cicd
+export VERSION=5.8.0-rc.25
+# if you want to use the latest stable release, ensure that these variables are not set:
+unset SCONECTL_REPO
+unset VERSION
+# cleanup the last state
+rm -rf release.sh target
+# define REPO to which you are # define REPO to which you are permitted to push container images
+REPO="<YOUR-REPO>"
+# execute all steps of this tutorial
+./run.sh -i "$REPO" --release secure-doc-management -v
+```
+
+## Introduction
+
 In this tutorial, we show how to perform software updates of confidential applications using two versions of the program.
 
 ## Cleanup
