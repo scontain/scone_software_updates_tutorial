@@ -5,7 +5,7 @@
 ```bash
 # In case you want to test a release candidate of `sconectl`, you can change the repo and the VERSION
 export SCONECTL_REPO=registry.scontain.com/cicd
-export VERSION=5.8.0-rc.25
+export VERSION=5.8.0
 # if you want to use the latest stable release, ensure that these variables are not set:
 unset SCONECTL_REPO
 unset VERSION
@@ -23,7 +23,7 @@ In this tutorial, we show how to perform software updates of confidential applic
 
 ## Cleanup
 
-Erase old build files:
+Erase old build files and use pre-release images (if you cannot find the requested version of the images on the default git repo)
 
 ```bash
 rm -rf release.sh target
